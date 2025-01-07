@@ -1,0 +1,19 @@
+{
+  "name": "codemate-backend",
+  "version": "1.0.0",
+  "description": "Tineder app for the developers and coders",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev":"nodemon src/app.js"
+  },
+  "keywords": [
+    "Nodejs",
+    "backend"
+  ],
+  "author": "satyam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
