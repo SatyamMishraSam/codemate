@@ -15,6 +15,7 @@ app.use(
   })
 );
 app.use(express.json());
+
 app.use(cookieParser());
 
 // manage all the routes which we transferred from this page
