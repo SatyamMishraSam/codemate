@@ -12,7 +12,8 @@ authRouter.post("/signup", async (req, res) => {
   try {
     // validate our req data
     validateSignupData(req);
-    const { firstName, lastName, email, password, age, skills } = req.body;
+    const { firstName, lastName, email, password, age, skills, gender } =
+      req.body;
     // Hash our password before saving to DB
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,9 +26,20 @@ authRouter.post("/signup", async (req, res) => {
       password: hashedPassword,
       age,
       skills,
+      gender,
     });
-    await user.save();
-    res.send("User added Successfully");
+    const savedUser = await user.save();
+
+    // whenever user creating then create a token along with that so that user can login directly
+    const token = jwt.sign({ _id: savedUser._id }, "thisisMySecretKey", {
+      expiresIn: "1d",
+    });
+
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 24 * 3600000),
+    });
+
+    res.json({ message: "User Account created!!", data: savedUser });
   } catch (e) {
     res.send("Error creating user" + e.message);
   }
@@ -61,7 +73,7 @@ authRouter.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 24 * 3600000),
       });
 
-      res.send("Login Successfull");
+      res.send(user);
     } else {
       throw new Error("Password doesn't match !!");
     }

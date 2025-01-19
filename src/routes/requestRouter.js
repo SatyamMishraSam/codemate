@@ -5,10 +5,10 @@ const ConnectionModel = require("../models/connection");
 
 const requestRouter = express.Router();
 
-requestRouter.post("/sendConnectionRequest", userAuth, (req, res) => {
-  const user = req.user;
-  res.send(user.firstName + "has sent request");
-});
+// requestRouter.post("/sendConnectionRequest", userAuth, (req, res) => {
+//   const user = req.user;
+//   res.send(user.firstName + "has sent request");
+// });
 
 requestRouter.post(
   "/request/send/:status/:toUserId",
