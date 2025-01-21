@@ -8,7 +8,7 @@ const userAuth = async (req, res, next) => {
     if (!token) {
       throw new Error("Invalid Token, Please Login First");
     }
-    const decodedMsg = await jwt.verify(token, "thisisMySecretKey");
+    const decodedMsg = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     const { _id } = decodedMsg;
 
     const user = await UserModel.findById(_id);

@@ -5,6 +5,8 @@ const app = express();
 
 const cookieParser = require("cookie-parser");
 
+require("dotenv").config();
+
 // by this CORS we can bypass the CORS error in our frontend API calls
 // by passing the parameter inside that we can set the cookies also
 
@@ -34,7 +36,7 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Database connected");
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Server started at 3000");
     });
   })
