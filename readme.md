@@ -70,3 +70,63 @@ Cases to be checked -
 - creating .env file
 - Place all the secrets into this file
 - require("dotenv").config(); -- configure this at the top level of the app
+
+- while deplyoing to product we have to manually mention all the secreats there
+
+` AWS SES SETUP` - for sending mails
+
+- create iam user - ses-user-codemate
+- attach sesfullaccess policy
+
+- Go to Amazon SES
+- Create identity with domain name
+- Map the CNAME to our DNS (cloudflare)
+- Get setup page and request for the production access
+- create secret access key for the created iam user
+- paste the access key to env file
+
+- V3 Nodejs Setup
+- Install AWS SDK V3
+- Code Example - https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_ses_code_examples.html
+
+- Github Example - https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/ses#code-examples
+
+- go to this repo of sending email example
+- it has dependency as first create sesclient so we also have to do `npm i @aws-sdk/client-ses`
+
+# configure sesclient
+
+- add this in the sesClient.js where we have to provide the access key details
+  credentials: {
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SES_SECRET,
+  },
+
+- https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/ses/src/ses_sendemail.js#L16
+
+- this is the reference file for the sending email code which is in sendEmail.js
+- with run method we can run after saving the connection requirement
+- we can make run funcation dynamic and sendEmail function also
+
+- passing the toUser email id in run function and we can send email to those users also
+
+`Razorpay Setup`
+
+- Setup of razorpay account
+- create an instacnce of razorpay (configuring the Razorpay ) as utils/razorpay.js
+- Mention the key and secret key
+
+- Creation of schema for the payment details storage
+- with help of instance will create the order and push to DB
+- make api dynamic type membership type and amount, for that we can create a constants file for plantype and amount
+
+- Now we have got the popup of payment with run method
+- Now we have to call the webhook - > setting - webhook
+  https://codemate.online/api/payment/webhook - as
+
+<!-- Verify webhook and signature -->
+
+- https://razorpay.com/docs/webhooks/validate-test/#validate-webhooks
+
+- this is the webhook response we get
+  https://razorpay.com/docs/webhooks/payloads/payments/#payment-authorized

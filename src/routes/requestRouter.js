@@ -5,6 +5,8 @@ const ConnectionModel = require("../models/connection");
 
 const requestRouter = express.Router();
 
+const sendEmail = require("../utils/sendEmail");
+
 // requestRouter.post("/sendConnectionRequest", userAuth, (req, res) => {
 //   const user = req.user;
 //   res.send(user.firstName + "has sent request");
@@ -20,6 +22,10 @@ requestRouter.post(
       const status = req.params.status;
 
       const { firstName } = await UserModel.findById(toUserId);
+      const toUser = await UserModel.findById(toUserId);
+      if (!toUser) {
+        return res.status(404).json({ message: "user not found" });
+      }
 
       // Status should be only ignored and interested
       const allowedStatus = ["ignored", "interested"];
@@ -62,6 +68,25 @@ requestRouter.post(
       });
 
       const data = await connectionRequestModel.save();
+      // console.log(toUser);
+      // console.log(toUser.email);
+
+      // if status is interested then i am sending mail services
+
+      if (status === "interested") {
+        const emailRes = await sendEmail.run(
+          "New CodeMate Request from " + req.user.firstName,
+          req.user.firstName +
+            " has " +
+            status +
+            " to " +
+            toUser.firstName +
+            " 's profile ",
+          toUser.email
+        );
+        // console.log(emailRes);
+      }
+
       res.json({
         message: `${req.user.firstName} has ${status} to ${firstName}'s profile`,
         data: data,
