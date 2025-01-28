@@ -74,17 +74,19 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
       return res.json({ message: "Webhook Signature is not valid" });
     }
 
+    console.log("Valid webhook signature");
     // Now webook successfull so need to change payment status in DB
-    const paymentDetails = req.body.payload.payment.enitity; //here we will have all the payment details
+    const paymentDetails = req.body.payload.payment.entity; //here we will have all the payment details
 
     const payment = await Payment.findOne({ orderId: paymentDetails.order_id });
     payment.status = paymentDetails.status; //change the db status to razorpay status
+    console.log("Payment Saved");
     await payment.save();
 
     const user = await UserModel.findOne({ _id: payment.userId });
     user.isPremium = true;
     user.memberShipType = payment.notes.memberShipType;
-    console.log("user Save");
+    console.log("user Saved");
     await user.save();
 
     return res.status(200).json({ msg: "Webhook received Successfully" });
