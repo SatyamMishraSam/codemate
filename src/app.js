@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 const cookieParser = require("cookie-parser");
-require("./utils/cronJob");
+// require("./utils/cronJob");
 require("dotenv").config();
 
 // by this CORS we can bypass the CORS error in our frontend API calls
