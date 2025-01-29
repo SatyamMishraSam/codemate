@@ -130,3 +130,12 @@ Cases to be checked -
 
 - this is the webhook response we get
   https://razorpay.com/docs/webhooks/payloads/payments/#payment-authorized
+
+  `SOcket.io`
+
+- npm i socket.io
+- setup of socket.io
+  - require http module and create server with that=> http.createSever
+  - replace the port listen to this server
+  - create an io with socket() function(require socket from socket.io)and also pass first arg as sever and second as the cors config
+  - with io.on method create multiple event handlers where first param as connection and then second as multiple events
