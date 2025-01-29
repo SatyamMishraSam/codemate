@@ -42,13 +42,13 @@ const initializeSocket = (server) => {
               // This checks whether there is already connection send to the toUser
               {
                 fromUserId: loggedInUser,
-                toUserId: toUserId,
+                toUserId: targetUserId,
                 status: "accepted",
               },
               // This checks wherther the toUserId has sent req to fromUserId(reverse)
               {
-                fromUserId: toUserId,
-                toUserId: fromUserId,
+                fromUserId: targetUserId,
+                toUserId: loggedInUser,
                 status: "accepted",
               },
             ],
